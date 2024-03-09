@@ -1,42 +1,39 @@
-package com.library.libraryManage.controller;
+package com.library.LibraryManagement.controller;
 
-import com.library.libraryManage.entity.Info;
-import com.library.libraryManage.repository.LibRepo;
-import com.library.libraryManage.service.LibInfo;
+import com.library.LibraryManagement.entities.LibEntity;
+import com.library.LibraryManagement.service.LibService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import com.library.LibraryManagement.repository.LibRepo;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/lib")
-public class Lib {
+public class LibController {
     @Autowired
     LibRepo librepo;
 
     @Autowired
-    private LibInfo libinfo;
+    private LibService libinfo;
 
     @GetMapping("/getAllBooks")
-    public List<Info> getAllBooks(){
+    public List<LibEntity> getAllBooks(){
         return libinfo.getAllBooks();
     }
 
     @PostMapping("/createBooks")
-    public Info createBooks(@RequestBody Info Book1){
+    public LibEntity createBooks(@RequestBody LibEntity Book1){
         return librepo.save(Book1);
     }
 
     @PostMapping("/updateBook")
-    public Info updateBook(@RequestBody Info Book1){
+    public LibEntity updateBook(@RequestBody LibEntity Book1){
         return libinfo.updateBook(Book1);
     }
 
     @DeleteMapping("/deleteBook")
-    public Info deleteBook(@RequestBody Info Book1){
+    public LibEntity deleteBook(@RequestBody LibEntity Book1){
         return libinfo.deleteBook(Book1);
     }
 }

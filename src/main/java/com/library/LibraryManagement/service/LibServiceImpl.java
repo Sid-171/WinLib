@@ -1,7 +1,7 @@
-package com.library.libraryManage.service;
-import com.library.libraryManage.controller.Lib;
-import com.library.libraryManage.entity.Info;
-import com.library.libraryManage.repository.LibRepo;
+package com.library.LibraryManagement.service;
+
+import com.library.LibraryManagement.entities.LibEntity;
+import com.library.LibraryManagement.repository.LibRepo;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -10,50 +10,51 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Primary
 @Service
-public class LibInfoImpl implements LibInfo {
+@Primary
+public class LibServiceImpl implements LibService{
 
     @Autowired
     LibRepo librepo;
-    public List<Info> info = new ArrayList<>();
+
+    public List<LibEntity> info= new ArrayList<>();
 
     @PostConstruct
-    public void init() {
-        Info Book1 = new Info(12, "Harry Potter", "Thriller", "J.K Rowling");
+    public void init(){
+        LibEntity Book1 = new LibEntity(12,"Harry Potter", "Fantasy Literature", "J.K Rowling");
         info.add(Book1);
-        System.out.println("Initialised Book Details:" + info);
+        System.out.println("Intialised Book Details:" + info);
     }
 
     @Override
-    public List<Info> getAllBooks() {
+    public List<LibEntity> getAllBooks(){
         return info;
     }
 
     @Override
-    public Info createBooks(Info Book1) {
-        return librepo.save(Book1);
+    public LibEntity createBooks(LibEntity Book){
+        return librepo.save(Book);
     }
 
     @Override
-    public Info updateBook(Info Book2) {
-        for (int i = 0; i < info.size(); i++) {
-            Info preBook = info.get(i);
-            if (preBook.getBookId() == Book2.getBookId()) {
-                info.set(i, Book2);
-                return Book2;
+    public LibEntity updateBook(LibEntity Book){
+        for(int i=0; i<info.size();i++){
+            LibEntity preBook = info.get(i);
+            if(preBook.getBookId() == Book.getBookId()){
+                info.set(i,Book);
+                return Book;
             }
         }
         return null;
     }
 
     @Override
-    public Info deleteBook(Info Book3) {
-        Info removedBook = null;
-        for (int i = 0; i < info.size(); i++) {
-            Info Book = info.get(i);
-            if (Book.getBookId() == Book3.getBookId()) {
-                removedBook = Book;
+    public LibEntity deleteBook(LibEntity todeleteBook){
+        LibEntity removedBook = null;
+        for(int i=0; i<info.size();i++){
+            LibEntity preBook = info.get(i);
+            if(preBook.getBookId() == todeleteBook.getBookId()){
+                removedBook = todeleteBook;
                 info.remove(i);
                 break;
             }
